@@ -15,40 +15,50 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      /* appBar: AppBar(
-        title: const Text('Edily'),
-        centerTitle: true,
-      ),*/
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        color: Colors.black87,
-        padding: const EdgeInsets.all(100),
-        child: Center(
-          child: controller.isLoading
-              ? const EdilyLoader(
-                  type: LoaderType.random,
-                  size: Size(140, 140),
-                )
-              : controller.videoPlayerController.value.isInitialized
-                  ? AspectRatio(
-                      aspectRatio:
-                          controller.videoPlayerController.value.aspectRatio,
-                      child: Stack(
-                        alignment: Alignment.bottomCenter,
-                        children: [
-                          VideoPlayer(controller.videoPlayerController),
-                          ControlsOverlay(
-                              controller: controller.videoPlayerController),
-                          VideoProgressIndicator(
-                            controller.videoPlayerController,
-                            allowScrubbing: true,
-                          ),
-                        ],
+    return Obx(
+      () => Scaffold(
+        /* appBar: AppBar(
+          title: const Text('Edily'),
+          centerTitle: true,
+        ),*/
+        body: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          color: Colors.black87,
+          padding: const EdgeInsets.all(100),
+          child: Center(
+            child: controller.isLoading()
+                ? const EdilyLoader(
+                    type: LoaderType.random,
+                    size: Size(140, 140),
+                  )
+                : controller.videoPlayerController != null
+                    ? controller.videoPlayerController?.value.isInitialized ??
+                            false
+                        ? AspectRatio(
+                            aspectRatio: controller
+                                    .videoPlayerController?.value.aspectRatio ??
+                                16 / 9,
+                            child: Stack(
+                              alignment: Alignment.bottomCenter,
+                              children: [
+                                VideoPlayer(controller.videoPlayerController!),
+                                ControlsOverlay(
+                                    controller:
+                                        controller.videoPlayerController!),
+                                VideoProgressIndicator(
+                                  controller.videoPlayerController!,
+                                  allowScrubbing: true,
+                                ),
+                              ],
+                            ),
+                          )
+                        : const SizedBox.shrink()
+                    : const Icon(
+                        Icons.error,
+                        size: 55,
                       ),
-                    )
-                  : Container(),
+          ),
         ),
       ),
     );
