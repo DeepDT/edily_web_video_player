@@ -4,9 +4,11 @@ part of 'app_pages.dart';
 abstract class Routes {
   Routes._();
   static const Video = _Paths.Video;
+  static const Error = _Paths.Error;
 }
 
 abstract class _Paths {
   _Paths._();
   static const Video = '/video';
+  static const Error = '/error';
 }

@@ -1,3 +1,5 @@
+import 'package:edily_web_video_player/app/modules/not_found/bindings/not_found_binding.dart';
+import 'package:edily_web_video_player/app/modules/not_found/views/not_found_view.dart';
 import 'package:get/get.dart';
 
 import '../modules/home/bindings/home_binding.dart';
@@ -15,6 +17,11 @@ class AppPages {
       name: _Paths.Video,
       page: () => HomeView(),
       binding: HomeBinding(),
+    ),
+    GetPage(
+      name: _Paths.Error,
+      page: () => NotFoundView(),
+      binding: NotFoundBinding(),
     ),
   ];
 }

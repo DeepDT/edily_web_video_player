@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 
@@ -6,7 +7,7 @@ import '../../../routes/app_pages.dart';
 class HomeController extends GetxController {
   final count = 0.obs;
   VideoPlayerController? videoPlayerController;
-  RxBool isLoading = false.obs;
+  RxBool isLoading = true.obs;
   double progress = 0;
 
   @override
@@ -16,10 +17,23 @@ class HomeController extends GetxController {
     String? videoId = Get.parameters['v'];
 
     if (videoId != null) {
-      isLoading(true);
-      videoPlayerController = VideoPlayerController.network(videoId)
-        ..initialize().then((_) => isLoading(false));
+      _initializeVideo(videoId);
+    } else {
+      _notFound();
     }
+  }
+
+  void _initializeVideo(String videoId) {
+    videoPlayerController = VideoPlayerController.network(videoId)
+      ..initialize().then((_) => isLoading(false)).onError((error, stackTrace) {
+        _notFound();
+        return true;
+      });
+  }
+
+  void _notFound() {
+    WidgetsBinding.instance
+        .addPostFrameCallback((timeStamp) => Get.offNamed(Routes.Error));
   }
 
   @override
